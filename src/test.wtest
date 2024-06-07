@@ -1,0 +1,79 @@
+import semillas.*
+import parcelas.*
+
+describe "plantas y sus condiciones para dar semillas y cuanto espacio ocupan" {
+	
+	test "una menta de un metro da semillas y ocupa un espacio de 3 metros cuadrados" {
+		const menta = new Menta(altura = 1, anioObtencion = 2004)
+		
+		assert.that(menta.daSemillas())
+		assert.equals(3, menta.espacioOcupado())
+	}
+	
+	test "una menta de 0.4 metros no da semillas y ocupa un espacio de 0.9 metros cuadrados" {
+		const menta = new Menta(altura = 0.3, anioObtencion = 2004)
+		
+		assert.that(not menta.daSemillas())
+		assert.equals(0.9, menta.espacioOcupado())
+	}
+	
+	test "una soja de altura menor a 0.5 metros tiene 6 horas de tolerancia al sol" {
+		const soja = new Soja(altura = 0.4, anioObtencion = 2004)
+		
+		assert.equals(6, soja.horasDeSolToleradas())
+	}
+	
+	test "una soja de altura entre 0.5 y 1 metro tiene 7 horas de tolerancia al sol" {
+		const soja = new Soja(altura = 0.5, anioObtencion = 2004)
+		assert.equals(7, soja.horasDeSolToleradas())
+		
+		const soja2 = new Soja(altura = 1, anioObtencion = 2004)
+		assert.equals(7, soja2.horasDeSolToleradas())
+	}
+	
+	test "una soja de altura mayor a 1 metro tiene 9 horas de tolerancia al sol" {
+		const soja = new Soja(altura = 1.2, anioObtencion = 2004)
+		
+		assert.equals(9, soja.horasDeSolToleradas())
+	}
+	
+	test "una quinoa de año 2010 con 12 horas de tolerancia al sol, da semillas" {
+		const quinoa = new Quinoa(altura = 1, anioObtencion = 2010, horasDeSolToleradas = 12)
+		
+		assert.that(quinoa.daSemillas())
+	}
+	
+	test "una quinoa de año 2001 con 9 horas de tolerancia al sol, da semillas" {
+		const quinoa = new Quinoa(altura = 1, anioObtencion = 2001, horasDeSolToleradas = 9)
+		
+		assert.that(quinoa.daSemillas())
+	}
+}
+
+describe "parcelas y sus limitaciones" {
+	
+	test "Una parcela de 20 metros de ancho por 1 metro de largo que recibe 
+		  8 horas de sol por día, tiene una superficie de 20 metros cuadrados,
+		  la cantidad máxima de plantas que tolera es 4" {
+		  const parcela = new Parcela(ancho = 20, largo = 1, horasDeSolRecibidas = 8)
+		  
+		  assert.equals(20, parcela.superficie())
+		  assert.equals(4, parcela.plantasToleradas())
+		  }
+		  
+	test "a la parcela anterior le plantamos 4 plantas de soja de mas de 1 metro 
+		  (que toleran 9 horas de sol); no tiene complicaciones" {
+		  const parcela = new Parcela(ancho = 20, largo = 1, horasDeSolRecibidas = 8)
+		  const soja = new Soja(altura = 1, anioObtencion = 2004)
+		  const soja1 = new Soja(altura = 1, anioObtencion = 2004)
+		  const soja2 = new Soja(altura = 1, anioObtencion = 2004)
+		  const soja3 = new Soja(altura = 1, anioObtencion = 2004)
+		  
+		  parcela.plantar(soja)
+		  parcela.plantar(soja1)
+		  parcela.plantar(soja2)
+		  parcela.plantar(soja3)
+		  
+		  assert.that(parcela.tieneComplicaciones())
+		  }
+}
