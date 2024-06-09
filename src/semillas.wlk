@@ -47,7 +47,7 @@ class Quinoa inherits Planta {
 
 class SojaTransgenica inherits Soja {
 	override method daSemillas() {return false}
-	override method esParcelaIdeal(parcela) {return parcela.plantas().size()}
+	override method esParcelaIdeal(parcela) {return parcela.plantas().size() == 1}
 }
 
 class Hierbabuena inherits Menta {
